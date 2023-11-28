@@ -5,17 +5,19 @@ namespace Model;
 class Admin extends ActiveRecord{
     //Base de datos
     protected static $tabla = "usuarios";
-    protected static $columnasDb = ["id","email","password"];
+    protected static $columnasDb = ["id","email","password","admin"];
 
     public $id;
     public $email;
     public $password;
+    public $admin;
 
     public function __construct($args = [])
     {
         $this->id = $args["id"] ?? null;
         $this->email = $args["email"] ?? "";
         $this->password = $args["password"] ?? "";
+        $this->admin = $args["admin"] ?? 0;
     }
 
     public function validar(){
@@ -48,10 +50,16 @@ class Admin extends ActiveRecord{
         return $autenticado;
     }
 
-    public function autenticar(){
-        session_start();
-        $_SESSION["usuario"]=$this->email;
-        $_SESSION["login"]=true;
-        header("Location: /admin");
+    public function autenticar($resultado){
+        $query = "SELECT * FROM ".self::$tabla." WHERE email='".$this->email."' LIMIT 1";
+        $resultado = self::$db->query($query);
+        $usuario = $resultado->fetch_object();
+        if($usuario->admin==="1"){
+            session_start();
+            $_SESSION["login"]=true;
+            header("Location: /admin");
+        }else{
+            header("Location: /");
+        }
     }
 }
