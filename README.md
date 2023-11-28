@@ -8,3 +8,7 @@ Modificar el archivo database.php, que esta en /includes/config, con las credenc
 
 Correo: admin@admin.com
 Contraseña: 1234567
+
+La direcciones de las API's:
+/api/juegos
+/api/generos
