@@ -15,9 +15,9 @@ class Router{
         session_start();
         $auth = $_SESSION["login"] ?? null;
         //Arreglo de rutas protegidas
-        $rutas_protegidas = ["/admin"];
-
-        $urlActual = $_SERVER["PATH_INFO"] ?? "/";
+        $rutas_protegidas = [];
+        
+        $urlActual = $_SERVER["REQUEST_URI"] ?? "/";
         $metodo = $_SERVER["REQUEST_METHOD"];
         
         if($metodo === "GET"){
@@ -30,7 +30,6 @@ class Router{
         if(in_array($urlActual,$rutas_protegidas) && !$auth){
             header("Location: /");
         }
-
         if($fn){
             call_user_func($fn,$this);
         }else{
