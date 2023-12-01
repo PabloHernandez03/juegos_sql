@@ -6,6 +6,7 @@ use Controllers\APIController;
 use Controllers\LoginController;
 use MVC\Router;
 use Controllers\JuegoController;
+use Controllers\ImageController;
 
 $router = new Router();
 
